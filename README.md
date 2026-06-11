@@ -20,7 +20,7 @@ A rubric-based answer evaluation system that uses **FastAPI + LangChain to evalu
 ## 🏗️ Project Structure
 
 ```
-evalvia/
+Rubric-evaluator/
 ├── rubrics/
 │   ├── rubrics.py            # 6 subject rubrics + generic fallback
 │   └── rubric_retriever.py   # Keyword-matching retrieval logic
@@ -210,7 +210,7 @@ This runs two LLM calls:
 
 6. **Caching**: Cache evaluations keyed by `hash(question + answer + rubric_id)` to avoid redundant API calls in classroom settings.
 
-7. **Streaming Responses**: Use Claude's streaming API to show evaluation tokens appearing in real-time in the Streamlit UI instead of a loading spinner.
+7. **Streaming Responses**: Use streaming API to show evaluation tokens appearing in real-time in the Streamlit UI instead of a loading spinner.
 
 8. **Multilingual Support**: Add Hindi rubrics and enable evaluation of answers written in Hindi or mixed Hindi-English for Indian classroom contexts.
 
