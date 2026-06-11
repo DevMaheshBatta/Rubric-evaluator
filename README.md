@@ -1,225 +1,335 @@
-# 🎓 Rubric-Evaluator
+# 🎯 Rubic-Evaluator
 
-A rubric-based answer evaluation system that uses **FastAPI + LangChain to evaluate student answers against subject-specific rubrics.
+**AI-Powered Rubric-Grounded Answer Evaluation System**
 
----
-
-## ✨ Features
-
-| Feature | Details |
-|---|---|
-| **Rubric Retrieval** | Keyword matching against 6 subject rubrics + 1 generic fallback |
-| **LLM Evaluation** | LangChain + Gemini (gemini-1.5-flash) with structured JSON output |
-| **Web UI** | Streamlit with real-time feedback, score bars, criteria breakdown |
-| **REST API** | FastAPI with Pydantic schemas and auto-generated docs at `/docs` |
-| **CLI** | Coloured terminal interface with interactive mode |
-| **Bonus: Comparison** | Side-by-side evaluation with vs. without rubric |
+Rubic-Evaluator is an intelligent assessment platform that evaluates student answers using predefined grading rubrics and Google Gemini. By grounding evaluations in subject-specific rubrics, the system delivers fair, transparent, and explainable grading instead of relying solely on generic LLM judgments.
 
 ---
 
-## 🏗️ Project Structure
+## 📸 Application Preview
 
+![Rubic-Evaluator UI](screenshots/app-preview.png)
+
+The application enables users to:
+
+* Enter a question
+* Submit a student answer
+* Retrieve the most relevant rubric
+* Generate AI-powered evaluation
+* View marks, feedback, and justification
+* Compare evaluation with and without rubric grounding
+
+---
+
+## 🚀 Features
+
+* ✅ Rubric-Based Answer Evaluation
+* ✅ Google Gemini Integration
+* ✅ LangChain-Powered Prompting
+* ✅ FastAPI Backend
+* ✅ Streamlit Interactive UI
+* ✅ Keyword-Based Rubric Retrieval
+* ✅ Subject-Specific Rubrics
+* ✅ Fallback Generic Rubric
+* ✅ Structured JSON Output
+* ✅ Detailed Feedback & Justification
+* ✅ Compare With/Without Rubric Evaluation
+
+---
+
+## 🧠 Problem Statement
+
+Large Language Models can evaluate answers, but they often:
+
+* Produce inconsistent marks
+* Lack grading transparency
+* Ignore subject-specific marking schemes
+* Provide vague explanations
+
+Rubic-Evaluator addresses these limitations by first retrieving a relevant grading rubric and then evaluating the answer against explicit criteria.
+
+---
+
+## 💡 Solution
+
+```text
+Question
+    ↓
+Rubric Retrieval
+    ↓
+Relevant Rubric
+    ↓
+Gemini Evaluation
+    ↓
+Marks + Feedback + Justification
 ```
-Rubric-evaluator/
-├── rubrics/
-│   ├── rubrics.py            # 6 subject rubrics + generic fallback
-│   └── rubric_retriever.py   # Keyword-matching retrieval logic
+
+This ensures evaluations are:
+
+* Fair
+* Explainable
+* Consistent
+* Aligned with academic grading standards
+
+---
+
+## 🏗️ Architecture
+
+```text
+┌──────────────────────────┐
+│      Streamlit UI        │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│       FastAPI API        │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│    Rubric Retriever      │
+│   (Keyword Matching)     │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   Retrieved Rubric       │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│ LangChain Prompt Engine  │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│     Google Gemini        │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│ Structured JSON Output   │
+└──────────────────────────┘
+```
+
+---
+
+## 📂 Project Structure
+
+```text
+Rubic-Evaluator/
+
 ├── backend/
-│   ├── main.py               # FastAPI app with /evaluate, /rubrics endpoints
-│   └── evaluator.py          # LangChain chains for with/without rubric eval
+│   ├── main.py
+│   ├── evaluator.py
+│   ├── retriever.py
+│   ├── prompts.py
+│   └── schemas.py
+│
 ├── frontend/
-│   └── app.py                # Streamlit web UI
-├── cli.py                    # Command-line interface
+│   └── app.py
+│
+├── rubrics/
+│   ├── physics.py
+│   ├── mathematics.py
+│   ├── english.py
+│   └── fallback.py
+│
+├── screenshots/
+│   └── app-preview.png
+│
 ├── requirements.txt
-└── .env.example
+├── .env.example
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🔍 Rubric Retrieval
 
-### 1. Install dependencies
+The system uses keyword matching to identify the most relevant rubric.
+
+### Example
+
+**Question**
+
+```text
+State Newton's Second Law of Motion and derive F = ma.
+```
+
+**Retrieved Rubric**
+
+```text
+Physics → Derivation Rubric
+```
+
+If no suitable rubric is found, the system automatically switches to a generic fallback rubric.
+
+---
+
+## 📚 Supported Rubrics
+
+| Subject     | Evaluation Type               |
+| ----------- | ----------------------------- |
+| Physics     | Definitions, Derivations      |
+| Mathematics | Methods, Steps, Final Answer  |
+| English     | Explanation, Clarity, Grammar |
+| Generic     | Fallback Evaluation           |
+
+---
+
+## 🤖 LLM Evaluation
+
+The evaluator receives:
+
+* Question
+* Student Answer
+* Retrieved Rubric
+
+Gemini then evaluates the answer strictly according to rubric criteria.
+
+### Example Output
+
+```json
+{
+  "marks_awarded": 4,
+  "max_marks": 5,
+  "feedback": "Good explanation but derivation is incomplete.",
+  "justification": "The law is correctly defined, but intermediate derivation steps are missing."
+}
+```
+
+---
+
+## ⚙️ Tech Stack
+
+| Component     | Technology    |
+| ------------- | ------------- |
+| Frontend      | Streamlit     |
+| Backend       | FastAPI       |
+| LLM Framework | LangChain     |
+| AI Model      | Google Gemini |
+| Validation    | Pydantic      |
+| Language      | Python        |
+
+---
+
+## 📡 API Endpoint
+
+### POST /evaluate
+
+### Request
+
+```json
+{
+  "question": "State Newton's Second Law of Motion.",
+  "student_answer": "Force is proportional to the rate of change of momentum."
+}
+```
+
+### Response
+
+```json
+{
+  "marks_awarded": 4,
+  "max_marks": 5,
+  "feedback": "Correct explanation but formula is missing.",
+  "justification": "Student explained the law correctly but did not mention F = ma."
+}
+```
+
+---
+
+## 🚀 Getting Started
+
+### Clone Repository
+
+```bash
+git clone https://github.com/DevMaheshBatta/Rubic-Evaluator.git
+cd Rubic-Evaluator
+```
+
+### Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+### Activate Environment
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Set your API key
+### Configure Environment Variables
 
-```bash
-cp .env.example .env
+Create a `.env` file:
 
-# Get it at: https://aistudio.google.com/app/apikey
+```env
+GOOGLE_API_KEY=your_gemini_api_key
 ```
 
-### 3. Start the FastAPI backend
+### Start FastAPI Server
 
 ```bash
-uvicorn backend.main:app --reload --port 8000
+uvicorn backend.main:app --reload
 ```
 
-API docs available at: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 4a. Launch the Streamlit UI
+### Launch Streamlit UI
 
 ```bash
 streamlit run frontend/app.py
 ```
 
-### 4b. Or use the CLI
+---
 
-```bash
-# Interactive mode
-python cli.py
+## 🔮 Future Improvements
 
-# Pass arguments directly
-python cli.py --question "State Newton's Second Law" --answer "Force equals mass times acceleration"
-
-# With bonus comparison (with vs without rubric)
-python cli.py --compare
-```
+* Embedding-Based Rubric Retrieval
+* Hybrid Search (Keywords + Embeddings)
+* Teacher Dashboard
+* Batch Evaluation
+* Student Analytics
+* Multi-Language Support
+* Rubric Management Portal
 
 ---
 
-## 🎯 How It Works
+## 🎯 Key Learnings
 
-### Step 1 — Rubric Retrieval
-
-The question text is tokenised (lowercased, punctuation stripped) and scored against each rubric's keyword list using **token overlap counting**:
-
-```python
-score = len(question_tokens ∩ rubric_keywords)
-```
-
-The rubric with the highest score wins. If all scores are 0, the **generic fallback rubric** is used.
-
-#### Available Rubrics
-
-| Rubric ID | Subject | Level | Keywords (sample) |
-|---|---|---|---|
-| `physics_class12` | Physics | Class 12 | force, velocity, newton, energy… |
-| `mathematics_class12` | Mathematics | Class 12 | integral, derivative, matrix… |
-| `english_class10` | English | Class 10 | poem, metaphor, theme, author… |
-| `chemistry_class12` | Chemistry | Class 12 | atom, reaction, bond, oxidation… |
-| `biology_class12` | Biology | Class 12 | cell, dna, photosynthesis… |
-| `history_class10` | History | Class 10 | war, revolution, empire, trade… |
-| `generic_fallback` | General | Any | _(no keywords — always fallback)_ |
-
-### Step 2 — LLM-Based Evaluation
-
-LangChain builds a `ChatPromptTemplate` and chains it with `ChatAnthropic` and `StrOutputParser`.
-
-**Prompt (with rubric):**
-
-```
-You are a strict but fair academic examiner evaluating a student's answer.
-You MUST evaluate ONLY against the provided rubric criteria.
-Return ONLY a valid JSON object — no markdown, no preamble.
-
-JSON schema:
-{
-  "marks_awarded": <int>,
-  "max_marks": <int>,
-  "feedback": "<actionable feedback>",
-  "justification": "<criterion-by-criterion breakdown>",
-  "criteria_breakdown": [
-    {"criterion": "<name>", "marks_given": <int>, "max": <int>, "comment": "<brief>"}
-  ]
-}
-
-QUESTION: {question}
-STUDENT ANSWER: {student_answer}
-RUBRIC — {subject} ({level}): Max marks: {max_marks}
-Criteria:
-{criteria_text}
-```
-
-**Why this prompt works well:**
-- "You MUST evaluate ONLY against the provided rubric" — prevents hallucination
-- "Return ONLY a valid JSON object" + example schema — forces structured output
-- "no markdown, no preamble" — prevents ```json fences from breaking parsing
-- `criteria_text` is pre-formatted with marks per criterion — makes allocation unambiguous
-
-### Step 3 — Output
-
-```json
-{
-  "marks_awarded": 3,
-  "max_marks": 5,
-  "feedback": "Definition and formula are correct, but the derivation steps are missing.",
-  "justification": "1 mark for correct definition, 1 mark for stating F=ma, 0 for missing derivation, 1 for numerical accuracy in worked example, 0 for no diagram.",
-  "criteria_breakdown": [
-    {"criterion": "Definition / Concept", "marks_given": 1, "max": 1, "comment": "Correct definition stated"},
-    {"criterion": "Formula", "marks_given": 1, "max": 1, "comment": "F = ma written"},
-    {"criterion": "Derivation / Steps", "marks_given": 0, "max": 1, "comment": "No derivation shown"},
-    ...
-  ]
-}
-```
+* FastAPI API Development
+* LangChain Workflows
+* Prompt Engineering
+* Gemini Integration
+* Structured LLM Outputs
+* Educational AI Systems
+* Rubric-Grounded Evaluation
 
 ---
 
-## 🔌 API Reference
+## 👨‍💻 Author
 
-### `POST /evaluate`
+**Dev Mahesh Batta**
 
-```json
-{
-  "question": "State Newton's Second Law",
-  "student_answer": "Force = mass × acceleration",
-  "compare_mode": false
-}
-```
+Computer Science Engineer | AI & Machine Learning Enthusiast
 
-Response includes `rubric`, `evaluation_with_rubric`, and optionally `evaluation_without_rubric`.
-
-### `GET /rubrics`
-Lists all available rubrics.
-
-### `GET /rubrics/{rubric_id}`
-Returns a specific rubric with all criteria.
+GitHub: https://github.com/DevMaheshBatta
 
 ---
 
-## 🔬 Bonus: With vs Without Rubric Comparison
-
-Enable via:
-- **Streamlit**: toggle "Compare with/without rubric" in the sidebar
-- **CLI**: pass `--compare` flag
-- **API**: set `"compare_mode": true`
-
-This runs two LLM calls:
-1. Rubric-guided evaluation (controlled, criterion-by-criterion)
-2. Free-form evaluation (LLM uses its own judgement)
-
-**Expected finding**: rubric-based evaluation is more consistent, more granular, and provides actionable per-criterion feedback. Without a rubric, scores can vary and feedback is more generic.
-
----
-
-## 🛠️ Improvements I Would Make
-
-1. **Semantic Retrieval**: Replace keyword matching with embedding-based similarity (e.g. `text-embedding-3-small`) for more accurate rubric selection — especially for question variations that don't use keyword terms directly.
-
-2. **Rubric Management UI**: An admin panel to create, edit, and version rubrics without touching code. Store in a database (PostgreSQL/SQLite) rather than a Python file.
-
-3. **Multi-turn Evaluation**: Let a teacher flag disputes and have the LLM re-evaluate with additional context — a human-in-the-loop re-assessment flow.
-
-4. **Batch Processing**: Accept CSV uploads of question/answer pairs and return bulk evaluation results.
-
-5. **Evaluation Confidence**: Add a `confidence` field to the JSON output so low-confidence evaluations can be flagged for human review.
-
-6. **Caching**: Cache evaluations keyed by `hash(question + answer + rubric_id)` to avoid redundant API calls in classroom settings.
-
-7. **Streaming Responses**: Use streaming API to show evaluation tokens appearing in real-time in the Streamlit UI instead of a loading spinner.
-
-8. **Multilingual Support**: Add Hindi rubrics and enable evaluation of answers written in Hindi or mixed Hindi-English for Indian classroom contexts.
-
----
-
-## 📦 Tech Stack
-
-- **FastAPI** — REST API backend with Pydantic validation
-- **LangChain** — Prompt chaining and LLM abstraction (`langchain-google-genai`)
-- **Gemini (gemini-1.5-flash)** — LLM for evaluation via Google AI Studio
-- **Streamlit** — Web UI
-- **Python 3.11+**
+⭐ If you found this project useful, consider giving it a star.
