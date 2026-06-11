@@ -111,39 +111,26 @@ This ensures evaluations are:
 │ Structured JSON Output   │
 └──────────────────────────┘
 ```
-
----
-
-## 📂 Project Structure
-
-```text
-Rubic-Evaluator/
-
+📂 Project Structure
+Rubric-evaluator/
+│
 ├── backend/
 │   ├── main.py
 │   ├── evaluator.py
-│   ├── retriever.py
-│   ├── prompts.py
-│   └── schemas.py
+│   └── __init__.py
 │
 ├── frontend/
 │   └── app.py
 │
 ├── rubrics/
-│   ├── physics.py
-│   ├── mathematics.py
-│   ├── english.py
-│   └── fallback.py
+│   ├── rubrics.py
+│   ├── rubric_retriever.py
+│   └── __init__.py
 │
-├── screenshots/
-│   └── app-preview.png
-│
-├── requirements.txt
 ├── .env.example
-├── README.md
-└── .gitignore
+├── requirements.txt
+└── README.md
 ```
-
 ---
 
 ## 🔍 Rubric Retrieval
