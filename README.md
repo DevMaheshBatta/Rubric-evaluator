@@ -1,14 +1,14 @@
-# 🎯 Rubic-Evaluator
+# 🎯 Rubric-Evaluator
 
 **AI-Powered Rubric-Grounded Answer Evaluation System**
 
-Rubic-Evaluator is an intelligent assessment platform that evaluates student answers using predefined grading rubrics and Google Gemini. By grounding evaluations in subject-specific rubrics, the system delivers fair, transparent, and explainable grading instead of relying solely on generic LLM judgments.
+Rubric-Evaluator is an intelligent assessment platform that evaluates student answers using predefined grading rubrics and Groq (LLaMA 3). By grounding evaluations in subject-specific rubrics, the system delivers fair, transparent, and explainable grading instead of relying solely on generic LLM judgments.
 
 ---
 
 ## 📸 Application Preview
 
-![Rubic-Evaluator UI](screenshots/app-preview.png)
+![Rubric-Evaluator UI](screenshots/app-preview.png)
 
 The application enables users to:
 
@@ -19,7 +19,20 @@ The application enables users to:
 * View marks, feedback, and justification
 * Compare evaluation with and without rubric grounding
 
+---
 
+## 🏆 Evaluation Result Screen
+
+![Evaluation Result](screenshots/result-prev.png)
+
+The result screen shows:
+
+* **Score card** — marks awarded out of total (e.g. 4/5 · 80%) with colour-coded background
+* **Rubric tags** — subject, class level, max marks, and keyword match score
+* **Rubric criteria** — expandable panel listing each criterion with its mark allocation
+* **Feedback & Justification** — AI-generated explanation of what the student got right or missed
+
+---
 
 ## The Problem
 
@@ -30,7 +43,7 @@ Large Language Models can evaluate answers, but without constraints they tend to
 - Apply a "halo effect" where one weak criterion drags others down
 - Provide vague justifications that can't be audited
 
-Rubic-Evaluator solves this by first retrieving a relevant grading rubric, then evaluating the answer strictly against it.
+Rubric-Evaluator solves this by first retrieving a relevant grading rubric, then evaluating the answer strictly against it.
 
 ---
 
@@ -43,7 +56,7 @@ Rubric Retrieval (keyword matching)
     ↓
 Relevant Rubric
     ↓
-Controlled Gemini Evaluation
+Controlled Groq (LLaMA 3) Evaluation
     ↓
 Marks + Feedback + Justification (JSON)
 ```
@@ -126,11 +139,11 @@ The prompt is the most critical part. I engineered it to prevent common LLM grad
 
 ## Supported Rubrics
 
-| Subject     | Evaluation Types               |
-| ----------- | ------------------------------ |
-| Physics     | Definitions, Derivations       |
-| Mathematics | Methods, Steps, Final Answer   |
-| English     | Explanation, Clarity, Grammar  |
+| Subject     | Evaluation Types                     |
+| ----------- | ------------------------------------ |
+| Physics     | Definitions, Derivations             |
+| Mathematics | Methods, Steps, Final Answer         |
+| English     | Explanation, Clarity, Grammar        |
 | Generic     | Fallback (Relevance, Clarity, Structure) |
 
 ---
@@ -184,7 +197,7 @@ The prompt is the most critical part. I engineered it to prevent common LLM grad
               │
               ▼
 ┌──────────────────────────┐
-│     Google Gemini        │
+│     Groq (LLaMA 3)       │
 └─────────────┬────────────┘
               │
               ▼
@@ -197,21 +210,21 @@ The prompt is the most critical part. I engineered it to prevent common LLM grad
 
 ## Tech Stack
 
-| Component     | Technology    |
-| ------------- | ------------- |
-| Frontend      | Streamlit     |
-| Backend       | FastAPI       |
-| LLM Framework | LangChain     |
-| AI Model      | Google Gemini |
-| Validation    | Pydantic      |
-| Language      | Python        |
+| Component     | Technology        |
+| ------------- | ----------------- |
+| Frontend      | Streamlit         |
+| Backend       | FastAPI           |
+| LLM Framework | LangChain         |
+| AI Model      | Groq (LLaMA 3)    |
+| Validation    | Pydantic          |
+| Language      | Python            |
 
 ---
 
 ## Project Structure
 
 ```
-Rubic-evaluator/
+Rubric-evaluator/
 │
 ├── backend/
 │   ├── main.py
@@ -250,8 +263,10 @@ pip install -r requirements.txt
 
 ```bash
 # Create a .env file
-GOOGLE_API_KEY=your_gemini_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
+
+Get your free API key at [console.groq.com](https://console.groq.com).
 
 **Run:**
 
@@ -271,7 +286,8 @@ streamlit run frontend/app.py       # Start UI
 ```json
 {
   "question": "string",
-  "student_answer": "string"
+  "student_answer": "string",
+  "compare_mode": false
 }
 ```
 

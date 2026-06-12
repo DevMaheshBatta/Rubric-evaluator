@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-cli.py  —  Command-line interface for Mini Answer Evaluator
+cli.py  —  Command-line interface for Rubic-Evaluator
 -----------------------------------------------------------
 Usage:
   python cli.py
@@ -90,7 +90,7 @@ def print_result(result: dict, title: str = "EVALUATION"):
 
 def run_evaluation(question: str, answer: str, compare: bool):
     print(_color("\n════════════════════════════════════════", CYAN))
-    print(_color("         MINI ANSWER EVALUATOR", BOLD, CYAN))
+    print(_color("         RUBRIC-EVALUATOR", BOLD, CYAN))
     print(_color("════════════════════════════════════════", CYAN))
 
     print(f"\n  {_color('Question:', BOLD)}\n  {question}")
@@ -102,7 +102,7 @@ def run_evaluation(question: str, answer: str, compare: bool):
     print_rubric(rubric)
 
     # Step 2: Evaluate with rubric
-    print(_color("  ⟳ Evaluating with rubric (calling Claude)…", GRAY))
+    print(_color("  ⟳ Evaluating with rubric (calling )…", GRAY))
     result_with = evaluate_with_rubric(question, answer, rubric)
     print_result(result_with, "EVALUATION (with rubric)")
 
@@ -129,7 +129,7 @@ def run_evaluation(question: str, answer: str, compare: bool):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Mini Answer Evaluator CLI")
+    parser = argparse.ArgumentParser(description="Rubric-Evaluator CLI")
     parser.add_argument("--question", "-q", type=str, help="Exam question")
     parser.add_argument("--answer",   "-a", type=str, help="Student's answer")
     parser.add_argument("--compare",  "-c", action="store_true",
@@ -141,7 +141,7 @@ def main():
         return
 
     # Interactive mode
-    print(_color("\n  🎓 Mini Answer Evaluator — Interactive Mode", BOLD, CYAN))
+    print(_color("\n  🎓 Rubric-Evaluator — Interactive Mode", BOLD, CYAN))
     print(_color("  (Ctrl+C to exit)\n", GRAY))
 
     while True:

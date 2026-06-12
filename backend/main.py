@@ -1,7 +1,6 @@
 """
 main.py  —  FastAPI backend for Rubric-Evaluator
 """
-
 import sys
 import os
 import traceback
@@ -22,18 +21,18 @@ from backend.evaluator import evaluate_with_rubric, evaluate_without_rubric
 
 # ── Startup check ─────────────────────────────────────────────────────────────
 
-api_key = os.getenv("GOOGLE_API_KEY")
+api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
-    print("⚠️  WARNING: GOOGLE_API_KEY is not set! Evaluation calls will fail.")
-    print("   Create a .env file with: GOOGLE_API_KEY=AIza...")
+    print("⚠️  WARNING: GROQ_API_KEY is not set! Evaluation calls will fail.")
+    print("   Create a .env file with: GROQ_API_KEY=gsk_...")
 else:
-    print(f"✅ GOOGLE_API_KEY loaded (starts with: {api_key[:8]}...)")
+    print(f"✅ GROQ_API_KEY loaded (starts with: {api_key[:8]}...)")
 
 # ── App setup ─────────────────────────────────────────────────────────────────
 
 app = FastAPI(
     title="Rubric-Evaluator API",
-    description="Rubric-based answer evaluation using LangChain + Gemini",
+    description="Rubric-based answer evaluation using LangChain + Groq",
     version="1.0.0",
 )
 
@@ -91,8 +90,8 @@ class EvaluateResponse(BaseModel):
 def health_check():
     return {
         "status": "ok",
-        "service": "Mini Answer Evaluator",
-        "google_api_key_set": bool(os.getenv("GOOGLE_API_KEY")),
+        "service": "Rubric-Evaluator API",
+        "groq_api_key_set": bool(os.getenv("GROQ_API_KEY")),
     }
 
 
@@ -131,7 +130,6 @@ def evaluate(request: EvaluateRequest):
         )
 
     except Exception as e:
-        # Print full traceback to server console so you can see what went wrong
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
