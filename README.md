@@ -23,7 +23,7 @@ The application enables users to:
 
 ## 🏆 Evaluation Result Screen
 
-![Evaluation Result](screenshots/result-prev.png)
+![Evaluation Result](screenshots/app-prev.png)
 
 The result screen shows:
 
